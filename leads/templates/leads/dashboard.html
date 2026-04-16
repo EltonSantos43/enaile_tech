@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enaile Tech - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Dashboard de Leads</h1>
+            <a href="/admin/logout/" class="btn btn-outline-danger">Sair</a>
+        </div>
+
+        <div class="row text-center mb-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm p-4 bg-primary text-white">
+                    <h3>Total de Leads</h3>
+                    <p class="display-3">{{ total_leads }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">Últimos 5 Leads</div>
+            <div class="card-body p-0">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lead in ultimos_leads %}
+                        <tr>
+                            <td>{{ lead.nome }}</td>
+                            <td>{{ lead.email }}</td>
+                            <td>{{ lead.data_criacao|date:"d/m/Y H:i" }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="3" class="text-center">Nenhum lead capturado ainda.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

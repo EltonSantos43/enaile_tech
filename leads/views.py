@@ -3,6 +3,9 @@ import requests
 from dotenv import load_dotenv
 from django.shortcuts import render
 from .models import Lead
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.db.models.functions import TruncDate
 
 # Carrega as variáveis de ambiente uma única vez na inicialização
 load_dotenv()
@@ -60,3 +63,27 @@ def home(request):
         'sucesso': sucesso, 
         'erro_email': erro_email
     })
+
+@login_required 
+def dashboard(request):
+    # Total de leads
+    total_leads = Lead.objects.count()
+
+    # Agrupamento para estatísticas (útil para gráficos futuros)
+    leads_por_dia = (
+        Lead.objects.annotate(dia=TruncDate('data_criacao'))
+        .values('dia')
+        .annotate(quantidade=Count('id'))
+        .order_by('-dia')[:7]
+    )
+
+    # Últimos 5 leads para a tabela
+    ultimos_leads = Lead.objects.all().order_by('-id')[:5]
+
+    context = {
+        'total_leads': total_leads,
+        'leads_por_dia': leads_por_dia,
+        'ultimos_leads': ultimos_leads,
+    }
+    
+    return render(request, 'leads/dashboard.html', context)
