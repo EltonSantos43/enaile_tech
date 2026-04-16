@@ -1,0 +1,23 @@
+# Ambiente Virtual
+
+venv/
+env/
+ENV/
+
+# Banco de dados local (SQlite) - Importante para não subir dados de teste
+*.sqlite3
+
+# Python (Arquivos compilados)
+
+__pycache__/
+*.py[cod]
+8$py.class
+
+# macOS (Arquivos de sistema)
+.DS_Store
+
+# IDEs (Configurações do VS Code)
+.vscode/
+
+# Variáveis de ambiente
+.env
