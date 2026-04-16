@@ -9,24 +9,26 @@ def home(request):
         nome = request.POST.get('nome')
         email = request.POST.get('email')
         telefone = request.POST.get('telefone')
-        honeypot = request.POST.get('website')
         descricao = request.POST.get('descricao')
-        if descricao:
-            descricao = descricao[:500]
+        honeypot = request.POST.get('website')
 
+        # 1. Verifica o Honeypot (se estiver preenchido, é um robô)
         if not honeypot:
-            # Verifica se o e-mail já existe no banco
+            # 2. Verifica se o e-mail já existe para evitar o erro de UNIQUE constraint
             if Lead.objects.filter(email=email).exists():
                 erro_email = True
             else:
-                # ADICIONADO: descricao=descricao para salvar no banco
+                # 3. Salva no banco de dados
                 Lead.objects.create(
-                    nome=nome, 
-                    email=email, 
-                    telefone=telefone, 
-                    descricao=descricao
+                    nome=nome,
+                    email=email,
+                    telefone=telefone,
+                    descricao=descricao[:500] # Garante o limite de 500 chars
                 )
                 sucesso = True
+                
+                # Opcional: Se quiser configurar o alerta de Telegram ou E-mail, 
+                # a chamada da função entraria bem aqui.
 
     context = {
         'sucesso': sucesso,
