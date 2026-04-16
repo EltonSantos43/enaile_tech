@@ -1,5 +1,34 @@
+import os
+import requests
+from dotenv import load_dotenv
 from django.shortcuts import render
 from .models import Lead
+
+# Carrega as variáveis de ambiente uma única vez na inicialização
+load_dotenv()
+
+def enviar_alerta_telegram(nome, email, telefone, descricao):
+    token = os.getenv("TELEGRAM_TOKEN")
+    chat_id = os.getenv("TELEGRAM_CHAT_ID")
+    
+    if not token or not chat_id:
+        return # Sai silenciosamente se as chaves não estiverem configuradas
+
+    texto = (
+        f"🚀 *Novo Orçamento na Enaile!*\n\n"
+        f"👤 *Nome:* {nome}\n"
+        f"📧 *E-mail:* {email}\n"
+        f"📞 *Telefone:* {telefone}\n"
+        f"📝 *Descrição:* {descricao[:300]}..."
+    )
+    
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {"chat_id": chat_id, "text": texto, "parse_mode": "Markdown"}
+    
+    try:
+        requests.post(url, data=payload, timeout=10)
+    except Exception:
+        pass # Em produção, evita que um erro no Telegram trave o site para o cliente
 
 def home(request):
     sucesso = False
@@ -12,26 +41,22 @@ def home(request):
         descricao = request.POST.get('descricao')
         honeypot = request.POST.get('website')
 
-        # 1. Verifica o Honeypot (se estiver preenchido, é um robô)
+        # Proteção contra robôs e validação de e-mail único
         if not honeypot:
-            # 2. Verifica se o e-mail já existe para evitar o erro de UNIQUE constraint
             if Lead.objects.filter(email=email).exists():
                 erro_email = True
             else:
-                # 3. Salva no banco de dados
                 Lead.objects.create(
                     nome=nome,
                     email=email,
                     telefone=telefone,
-                    descricao=descricao[:500] # Garante o limite de 500 chars
+                    descricao=descricao[:500]
                 )
-                sucesso = True
                 
-                # Opcional: Se quiser configurar o alerta de Telegram ou E-mail, 
-                # a chamada da função entraria bem aqui.
+                enviar_alerta_telegram(nome, email, telefone, descricao)
+                sucesso = True
 
-    context = {
-        'sucesso': sucesso,
+    return render(request, 'leads/index.html', {
+        'sucesso': sucesso, 
         'erro_email': erro_email
-    }
-    return render(request, 'leads/index.html', context)
+    })
