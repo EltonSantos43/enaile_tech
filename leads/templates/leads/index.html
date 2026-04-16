@@ -93,7 +93,13 @@
                     </div>
                     {% endif %}
 
-                    <form method="POST">
+                    {% if erro_email %}
+                    <div class="alert-error" style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+                        ⚠️ Este e-mail já está cadastrado em nossa base.
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" action="#contato">
                         {% csrf_token %}
                         <input type="text" name="website" class="honeypot">
 
@@ -105,6 +111,10 @@
                         </div>
                         <div class="form-group">
                             <input type="text" name="telefone" placeholder="Telefone (Opcional)">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="descricao" placeholder="Descreva o seu projeto (mínimo 500 caracteres)" 
+                                    maxlength="2000" required rows="4"></textarea>
                         </div>
                         <button type="submit" class="btn-primary full-width">Enviar Agora</button>
                     </form>

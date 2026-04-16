@@ -5,6 +5,8 @@ class Lead(models.Model):
     email = models.EmailField(unique=True)
     telefone = models.CharField(max_length=20, blank=True, null=True)
     data_cadastro = models.DateTimeField(auto_now_add=True)
+    descricao = models.TextField(max_length=500, default="") 
+    data_criacao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f"{self.nome} - {self.email}"
