@@ -15,7 +15,7 @@ def enviar_alerta_telegram(nome, email, telefone, descricao):
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     
     if not token or not chat_id:
-        return # Sai silenciosamente se as chaves não estiverem configuradas
+        return
 
     texto = (
         f"🚀 *Novo Orçamento na Enaile!*\n\n"
@@ -31,7 +31,7 @@ def enviar_alerta_telegram(nome, email, telefone, descricao):
     try:
         requests.post(url, data=payload, timeout=10)
     except Exception:
-        pass # Em produção, evita que um erro no Telegram trave o site para o cliente
+        pass
 
 def home(request):
     sucesso = False
@@ -66,7 +66,6 @@ def home(request):
 
 @login_required 
 def dashboard(request):
-    # Total de leads
     total_leads = Lead.objects.count()
 
     # Agrupamento para estatísticas (útil para gráficos futuros)
@@ -77,7 +76,6 @@ def dashboard(request):
         .order_by('-dia')[:7]
     )
 
-    # Últimos 5 leads para a tabela
     ultimos_leads = Lead.objects.all().order_by('-id')[:5]
 
     context = {

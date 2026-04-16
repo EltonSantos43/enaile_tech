@@ -54,7 +54,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # 2. CONFIGURAÇÃO ÚNICA DO BANCO DE DADOS (MySQL)
-# Removi o bloco do SQLite que estava lá embaixo
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -66,7 +65,6 @@ DATABASES = {
     }
 }
 
-# Restante das configurações...
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
