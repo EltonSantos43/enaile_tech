@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enaile Technology | Sistemas Web & Landing Pages</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <div class="logo">Enaile<span>Technology</span></div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Sistemas web sob medida para o seu negócio</h1>
+                <a href="#contato" class="btn-primary">Solicitar orçamento</a>
+            </div>
+        </section>
+
+        <section class="portfolio container">
+            <h2>Nossos Projetos</h2>
+            
+            <div class="grid-projetos">
+                
+                <div class="card">
+                    <div class="card-img col-nil">🍔 Nil Burguer</div>
+                    <div class="card-content">
+                        <h3>Nil Burguer</h3>
+                        <p>Gestão de pedidos e delivery.</p>
+                        <div class="card-footer">
+                            <span class="tech-tag">HTML | CSS | JS</span>
+                            <a href="https://nilburguer.vercel.app/" target="_blank" class="link-projeto">Visualizar →</a>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="card">
+                    <div class="card-img col-weather">☁️ Weather App</div>
+                    <div class="card-content">
+                        <h3>Weather App</h3>
+                        <p>Previsão do tempo em tempo real.</p>
+                        <div class="card-footer">
+                            <span class="tech-tag">JS | HTML | CSS</span>
+                            <a href="https://previsaodo-tempo-five.vercel.app/" target="_blank" class="link-projeto">Visualizar →</a>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="card">
+                    <div class="card-img col-cyber">🍔 Cyber Burguer</div>
+                    <div class="card-content">
+                        <h3>Cyber Burguer</h3>
+                        <p>Gestão de pedidos e delivery.</p>
+                        <div class="card-footer">
+                            <span class="tech-tag">HTML | CSS | JS</span>
+                            <a href="https://cyber-burguer.vercel.app/" target="_blank" class="link-projeto">Visualizar →</a>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="card">
+                    <div class="card-img col-portfolio">📂 Portfólio</div>
+                    <div class="card-content">
+                        <h3>Meu Portfólio</h3>
+                        <p>Apresentação profissional de projetos.</p>
+                        <div class="card-footer">
+                            <span class="tech-tag">Tailwind | IA</span>
+                            <a href="https://ecsdeveloper.vercel.app/" target="_blank" class="link-projeto">Visualizar →</a>
+                        </div>
+                    </div>
+                </div>
+        
+            </div> </section>
+
+        <section id="contato" class="contato">
+            <div class="container">
+                <div class="contato-box">
+                    <h2>Solicitar Orçamento</h2>
+                
+                    {% if sucesso%}
+                    <div class="alert-success">
+                        ✅ Recebemos seu contato! Falaremos em breve.
+                    </div>
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="website" class="honeypot">
+
+                        <div class="form-group">
+                            <input type="text" name="nome" placeholder="Seu Nome" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Seu melhor E-mail" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="telefone" placeholder="Telefone (Opcional)">
+                        </div>
+                        <button type="submit" class="btn-primary full-width">Enviar Agora</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="logo" style="margin-bottom: 15px;">
+                <span style="color: white;">Enaile</span><span style="color: #3b82f6">Technology</span>
+            </div>
+            <p>&copy; 2026 Enaile Technology. Todos os direitos reservados.</p>
+            <p style="font-size: 0.8rem; margin-top: 5px;">Desenvolvido por Elton Santos</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
