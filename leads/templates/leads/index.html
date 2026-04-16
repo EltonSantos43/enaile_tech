@@ -30,7 +30,6 @@
             <h2>Nossos Projetos</h2>
             
             <div class="grid-projetos">
-                
                 <div class="card">
                     <div class="card-img col-nil">🍔 Nil Burguer</div>
                     <div class="card-content">
@@ -78,7 +77,6 @@
                         </div>
                     </div>
                 </div>
-        
             </div> 
         </section>
 
@@ -109,9 +107,17 @@
                         <div class="form-group">
                             <input type="email" name="email" placeholder="Seu melhor E-mail" required>
                         </div>
+                        
                         <div class="form-group">
-                            <input type="text" name="telefone" placeholder="Telefone (Opcional)">
+                            <input type="text"
+                                name="telefone" 
+                                id="id_telefone" 
+                                placeholder="Telefone (Opcional)" 
+                                maxlength="15" 
+                                onkeyup="handlePhoneMask(this)"
+                                required>
                         </div>
+
                         <div class="form-group">
                             <textarea name="descricao" 
                                     placeholder="Descreva o seu projeto (máximo 500 caracteres)" 
@@ -133,6 +139,24 @@
             <p style="font-size: 0.8rem; margin-top: 5px;">Desenvolvido por Elton Santos</p>
         </div>
     </footer>
+
+    <script>
+    function handlePhoneMask(input) {
+        let value = input.value;
+        value = value.replace(/\D/g, ""); // Remove tudo que não é número
+
+        if (value.length > 0) {
+            value = "(" + value;
+        }
+        if (value.length > 3) {
+            value = value.substring(0, 3) + ") " + value.substring(3);
+        }
+        if (value.length > 10) {
+            value = value.substring(0, 10) + "-" + value.substring(10);
+        }
+        input.value = value.substring(0, 15);
+    }
+    </script>
     
 </body>
 </html>
